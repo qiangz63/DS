@@ -55,7 +55,7 @@ typedef struct VNode {
 typedef struct {
   AdjList vertices;
   int vexnum, arcnum;
-} ALGraph;
+} ALGraph, *Graph;
 
 void InitStack(Stack &S) { S.top = -1; }
 bool EmptyStack(Stack &S) {
@@ -142,4 +142,39 @@ void CreateTree(BiTree &tree) {
       pcur = pcur->next; // 左右都有孩子时，pcur需指向队列下一个
     }
   }
+}
+Graph CreateALGraph(int v, int e) {
+  Graph G = new ALGraph;
+  G->vexnum = v;
+  G->arcnum = e;
+  for (int i = 0; i < v; ++i)
+    G->vertices[i].first = NULL;
+  cout << "邻接表头插法创建无向图(数字用逗号隔开):" << endl;
+  for (int i = 0; i < e; ++i) {
+    int v1, v2;
+    cin >> v1;
+    cin >> v2;
+    ArcNode *p = new ArcNode;
+    p->adjvex = v2;
+    p->next = G->vertices[v1].first;
+    G->vertices[v1].first = p;
+    ArcNode *q = new ArcNode;
+    q->adjvex = v1;
+    q->next = G->vertices[v2].first;
+    G->vertices[v2].first = q;
+  }
+  return G;
+}
+MGraph CreateMGraph(int v, int e) {
+  int x;
+  MGraph M;
+  M.vexnum = v;
+  M.arcnum = e;
+  cout << "邻接矩阵创建无向图(N*N,数字用空格隔开):" << endl;
+  for (int i = 0; i < M.vexnum; ++i)
+    for (int j = 0; j < M.vexnum; ++j) {
+      cin >> x;
+      M.edge[i][j] = x;
+    }
+  return M;
 }

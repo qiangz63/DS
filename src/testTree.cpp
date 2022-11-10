@@ -172,20 +172,41 @@ int BTDepth(BiTree T) {
 
 int BTDepth2(BiTree T) {
   BiTree Q[MAXSIZE];
-  int front = -1, rear = -1;
+  int front = -1, rear = -1, level = 0, last = 0;
   BiTree p = T;
   Q[++rear] = p;
   while (front != rear) {
     p = Q[++front];
-    visit(p);
     if (p->lchild)
       Q[++rear] = p = p->lchild;
     if (p->rchild)
       Q[++rear] = p = p->rchild;
+    if (front == last) {
+      level++;
+      last = rear;
+    }
   }
+  return level;
 }
 
-int BTBridth(BiTree T) {}
+int BTBridth(BiTree T) {
+  BiTree Q[MAXSIZE];
+  int front = -1, rear = -1, last = 0, cout = 0, max = 0;
+  BiTree p = T;
+  Q[++rear] = p;
+  while (front != rear) {
+    p = Q[++front];
+    if (p->lchild)
+      Q[++rear] = p->lchild;
+    if (p->rchild)
+      Q[++rear] = p->rchild;
+    if (front == last)
+      cout = rear - front;
+    if (max < cout)
+      max = cout;
+  }
+  return max;
+}
 
 int main() {
   int A[] = {88, 34, -9, 34, 0, 23, 14, 29, 68, 46};
@@ -196,8 +217,7 @@ int main() {
   BiTree T = NULL;
   CreateTree(T);
   printf("-----层次遍历-----\n");
-  // LevelOrder(T);
-  BTDepth2(T);
+  LevelOrder(T);
   printf("-----先序遍历-----\n");
   PreOrder(T);
   cout << endl;
@@ -211,5 +231,7 @@ int main() {
   cout << endl;
   PostOrder2(T);
   printf("-------其他--------\n");
-  cout << "树高H=" << BTDepth(T) << endl;
+  cout << "树高H1=" << BTDepth(T) << endl;
+  cout << "树高H2=" << BTDepth2(T) << endl;
+  cout << "树宽B=" << BTBridth(T) << endl;
 }
