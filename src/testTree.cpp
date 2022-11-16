@@ -191,7 +191,7 @@ int BTDepth2(BiTree T) {
 
 int BTBridth(BiTree T) {
   BiTree Q[MAXSIZE];
-  int front = -1, rear = -1, last = 0, cout = 0, max = 0;
+  int front = -1, rear = -1, last = 0, cout = 0, max = 1;
   BiTree p = T;
   Q[++rear] = p;
   while (front != rear) {
@@ -200,8 +200,10 @@ int BTBridth(BiTree T) {
       Q[++rear] = p->lchild;
     if (p->rchild)
       Q[++rear] = p->rchild;
-    if (front == last)
+    if (front == last) {
       cout = rear - front;
+      last = rear;
+    }
     if (max < cout)
       max = cout;
   }
