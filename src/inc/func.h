@@ -274,6 +274,21 @@ ALGraph *CreateExampleALgraph() {
   }
   return pG;
 }
+// 打印邻接表图
+void PrintALgraph(ALGraph G) {
+  int i;
+  ArcNode *node;
+  printf("邻接表图:\n");
+  for (i = 0; i < G.vexnum; i++) { // 遍历所有的顶点
+    printf("%d(%c): ", i, G.vertices[i].data);
+    node = G.vertices[i].first;
+    while (node != NULL) { // 把每个顶点周围的结点都输出一下
+      printf("%d(%c) ", node->adjvex, G.vertices[node->adjvex].data);
+      node = node->next;
+    }
+    printf("\n");
+  }
+}
 // 创建邻接表对应的图(有向图)
 ALGraph *CreateExampleALgraphDirected() {
   char c1, c2;

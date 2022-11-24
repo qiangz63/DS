@@ -10,7 +10,8 @@ void visitm(MGraph M, int v, int e) {
 }
 
 void BFS(Graph G) {
-  int i, j;
+  cout << "广度优先遍历(BFS):";
+  int i, j, k;
   int visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
     visited[i] = 0;
@@ -27,11 +28,11 @@ void BFS(Graph G) {
       j = Q[front++];
       p = G->vertices[j].first;
       while (p) {
-        j = p->adjvex;
-        if (!visited[j]) {
-          visited[j] = 1;
-          printf("%c", G->vertices[j].data);
-          Q[rear++] = j;
+        k = p->adjvex;
+        if (!visited[k]) {
+          visited[k] = 1;
+          printf("%c", G->vertices[k].data);
+          Q[rear++] = k;
         }
         p = p->next;
       }
@@ -40,14 +41,15 @@ void BFS(Graph G) {
   cout << endl;
 }
 
-void DFS(Graph G) {}
+void DFS(Graph G) { cout << "深度优先遍历(DFS):"; }
 
-void DFS2(Graph G) {}
+void DFS2(Graph G) { cout << "非递归深度优先遍历:"; }
 
 int main() {
   // MGraph M = CreateMGraph(4, 4);
   // visitm(M, 4, 4);
   Graph G = CreateExampleALgraph();
+  PrintALgraph(*G);
   BFS(G);
   DFS(G);
   DFS2(G);
