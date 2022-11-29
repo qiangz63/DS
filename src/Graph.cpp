@@ -41,7 +41,28 @@ void BFS(Graph G) {
   cout << endl;
 }
 
-void DFS(Graph G) { cout << "深度优先遍历(DFS):"; }
+void DFSTrav(Graph G, int i, int *visited) {
+  ArcNode *p;
+  visited[i] = 1;
+  cout << G->vertices[i].data;
+  p = G->vertices[i].first; // 拿当前顶点的后面一个顶点
+  while (p) {
+    if (!visited[p->adjvex]) // 只要对应顶点没有访问过，深入到下一个顶点访问
+      DFSTrav(G, p->adjvex, visited);
+    p = p->next; // 某个顶点的下一条边，例如B结点的下一条边
+  }
+}
+
+void DFS(Graph G) {
+  cout << "深度优先遍历(DFS):";
+  int i, visited[MaxVexNum];
+  for (i = 0; i < G->vexnum; i++)
+    visited[i] = 0;
+  for (i = 0; i < G->vexnum; i++)
+    if (!visited[i])
+      DFSTrav(G, i, visited);
+  cout << endl;
+}
 
 void DFS2(Graph G) { cout << "非递归深度优先遍历:"; }
 
