@@ -9,47 +9,57 @@ void visitm(MGraph M, int v, int e) {
   }
 }
 
+int FirstNeighbor(Graph G, int i) {
+  ArcNode *first = G->vertices[i].first;
+  return first == NULL ? -1 : first->adjvex;
+}
+
+int NextNeighbor(Graph G, int i, int j) {
+  ArcNode *edge = G->vertices[i].first;
+  while (edge && edge->adjvex != j)
+    edge = edge->next;
+  if (!edge || !edge->next)
+    return -1;
+  else
+    return edge->next->adjvex;
+}
+
+void BFSTrav(Graph G, int i, int *visited) {
+  cout << G->vertices[i].data;
+  visited[i] = 1;
+  int Q[MaxVexNum], front = -1, rear = -1;
+  Q[++front] = i;
+  while (front != rear) {
+    i = Q[++rear];
+    for (int j = FirstNeighbor(G, i); j >= 0; j = NextNeighbor(G, i, j))
+      if (!visited[j]) {
+        cout << G->vertices[j].data;
+        visited[j] = 1;
+        Q[++front] = j;
+      }
+  }
+}
+
 void BFS(Graph G) {
   cout << "广度优先遍历(BFS):";
-  int i, j, k;
-  int visited[MaxVexNum];
+  int i, visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
     visited[i] = 0;
-  int Q[MAXSIZE];
-  int front = -1, rear = -1;
-  ArcNode *p;
-  for (i = 0; i < G->vexnum; i++) {
-    if (!visited[i]) {
-      visited[i] = 1;
-      printf("%c", G->vertices[i].data);
-      Q[rear++] = i;
-    }
-    while (front != rear) {
-      j = Q[front++];
-      p = G->vertices[j].first;
-      while (p) {
-        k = p->adjvex;
-        if (!visited[k]) {
-          visited[k] = 1;
-          printf("%c", G->vertices[k].data);
-          Q[rear++] = k;
-        }
-        p = p->next;
-      }
-    }
-  }
+  for (i = 0; i < G->vexnum; i++)
+    if (!visited[i])
+      BFSTrav(G, i, visited);
   cout << endl;
 }
 
 void DFSTrav(Graph G, int i, int *visited) {
   ArcNode *p;
-  visited[i] = 1;
   cout << G->vertices[i].data;
-  p = G->vertices[i].first; // 拿当前顶点的后面一个顶点
+  visited[i] = 1;
+  p = G->vertices[i].first;
   while (p) {
-    if (!visited[p->adjvex]) // 只要对应顶点没有访问过，深入到下一个顶点访问
+    if (!visited[p->adjvex])
       DFSTrav(G, p->adjvex, visited);
-    p = p->next; // 某个顶点的下一条边，例如B结点的下一条边
+    p = p->next;
   }
 }
 
@@ -64,7 +74,30 @@ void DFS(Graph G) {
   cout << endl;
 }
 
-void DFS2(Graph G) { cout << "非递归深度优先遍历:"; }
+void DFS2(Graph G, int v) {
+  cout << "非递归深度优先遍历:";
+  int S[MaxVexNum], top = -1;
+  int i, visited[MaxVexNum];
+  for (i = 0; i < G->vexnum; i++)
+    visited[i] = 0;
+  cout << G->vertices[v].data;
+  visited[v] = 1;
+  S[++top] = v;
+  while (top != -1) {
+    int j = S[top];
+    ArcNode *p = G->vertices[j].first;
+    while (p && visited[p->adjvex])
+      p = p->next;
+    if (!p)
+      top--;
+    else {
+      cout << G->vertices[p->adjvex].data;
+      visited[p->adjvex] = 1;
+      S[++top] = p->adjvex;
+    }
+  }
+  cout << endl;
+}
 
 int main() {
   // MGraph M = CreateMGraph(4, 4);
@@ -73,6 +106,6 @@ int main() {
   PrintALgraph(*G);
   BFS(G);
   DFS(G);
-  DFS2(G);
+  DFS2(G, 0);
   return 0;
 }

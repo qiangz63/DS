@@ -26,7 +26,7 @@ include_directories(src/inc)
 # 编译源码生成目标
 add_executable(test src/test.cpp)
 #add_executable(testTree src/testTree.cpp)
-#add_executable(testGraph src/testGraph.cpp)
+add_executable(testGraph src/testGraph.cpp)
 #add_executable(search src/Search.cpp)
 #add_executable(tree src/Tree.cpp)
 add_executable(graph src/Graph.cpp)
