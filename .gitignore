@@ -1,5 +1,6 @@
 termux-build
 x86-build
+x64-build
 build
 
 # Prerequisites

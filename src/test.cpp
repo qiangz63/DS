@@ -218,7 +218,6 @@ void DFS(Graph G) {
 
 void DFS2(Graph G, int v) {
   int S[MaxVexNum], top = -1;
-
   int i, visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
     visited[i] = 0;
