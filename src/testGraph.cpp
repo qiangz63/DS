@@ -33,7 +33,6 @@ void BFSTrav(Graph G, int i, int *visited) {
 }
 
 void BFS(Graph G) {
-  cout << "广度优先遍历(BFS):";
   int i, visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
     visited[i] = 0;
@@ -56,7 +55,6 @@ void DFSTrav(Graph G, int i, int *visited) {
 }
 
 void DFS(Graph G) {
-  cout << "深度优先遍历(DFS):";
   int i, visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
     visited[i] = 0;
@@ -67,7 +65,6 @@ void DFS(Graph G) {
 }
 
 void DFS2(Graph G, int v) {
-  cout << "非递归深度优先遍历:";
   int S[MaxVexNum], top = -1;
   int i, visited[MaxVexNum];
   for (i = 0; i < G->vexnum; i++)
@@ -94,8 +91,11 @@ void DFS2(Graph G, int v) {
 int main() {
   Graph G = CreateExampleALgraph();
   PrintALgraph(*G);
+  cout << "广度优先遍历(BFS):";
   BFS(G);
+  cout << "深度优先遍历(DFS):";
   DFS(G);
+  cout << "非递归深度优先遍历:";
   DFS2(G, 0);
   return 0;
 }
