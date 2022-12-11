@@ -239,12 +239,39 @@ void DFS2(Graph G, int v) {
   }
 }
 
+void merge(int A[], int low, int mid, int high) {
+  int i = low, j = mid + 1, k, B[10];
+  for (k = low; k <= high; k++)
+    B[k] = A[k];
+  for (k = i; i <= mid && j <= high; k++)
+    if (B[i] > B[j])
+      A[k] = B[j++];
+    else
+      A[k] = B[i++];
+  while (i <= mid)
+    A[k++] = B[i++];
+  while (j <= high)
+    A[k++] = B[j++];
+}
+
+void mergesort(int A[], int low, int high) {
+  if (low < high) {
+    int mid = (low + high) / 2;
+    mergesort(A, low, mid);
+    mergesort(A, mid + 1, high);
+    merge(A, low, mid, high);
+  }
+}
+
 int main() {
   int A[10] = {99, -3, -29, 23, 34, 91, 0, 8, 34, 84};
   qsort(A, 0, 9);
   print(A, 10);
   int B[10] = {99, -3, -29, 23, 34, 91, 0, 8, 34, 84};
   heapsort(B, 9);
+  int C[10] = {99, -3, -29, 23, 34, 91, 0, 8, 34, 84};
+  mergesort(C, 0, 9);
+  print(C, 10);
   BiTree tree = NULL;
   CreateTree(tree);
   printf("-----层次遍历-----\n");

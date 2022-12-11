@@ -25,7 +25,7 @@ void BubbleSort(int A[], int n) {
 
 void SelectSort(int A[], int n) {
   for (int i = 0; i < n; i++) {
-    int min = i, tmp = A[i];
+    int min = i;
     for (int j = i + 1; j < n; j++)
       if (A[min] > A[j])
         min = j;
@@ -102,15 +102,14 @@ void HeapSort(int A[], int n) {
 }
 
 void Merge(int A[], int low, int mid, int high) {
-  int i, j, k, B[10];
-  for (i = low; i < high; i++)
-    B[i] = A[i];
-  for (i = low, j = mid + 1, k = i; i <= mid && j <= high; k++) {
+  int i = low, j = mid + 1, k, B[10];
+  for (k = low; k <= high; k++)
+    B[k] = A[k];
+  for (k = i; i <= mid && j <= high; k++)
     if (B[i] < B[j])
       A[k] = B[i++];
     else
       A[k] = B[j++];
-  }
   while (i <= mid)
     A[k++] = B[i++];
   while (j <= high)
@@ -121,7 +120,7 @@ void MergeSort(int A[], int low, int high) {
   if (low < high) {
     int mid = (low + high) / 2;
     MergeSort(A, low, mid);
-    MergeSort(A, mid, high);
+    MergeSort(A, mid + 1, high);
     Merge(A, low, mid, high);
   }
 }
